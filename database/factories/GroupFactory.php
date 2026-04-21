@@ -1,0 +1,30 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Group;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Group>
+ */
+class GroupFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        /** @var \Faker\Generator $faker */
+        $faker = fake('ru_RU');
+
+        return [
+            // Генерируем название группы из предложенного списка
+            'name' => $this->faker->randomElement(['IT Support', 'HR', 'Maintenance']),
+            // Генерируем случайное описание на русском языке
+            'description' => $faker->realText(200),
+        ];
+    }
+}
