@@ -8,5 +8,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Регистрация маршрутов API для билетов
-Route::apiResource('tickets', TicketController::class)->only(['index', 'show']);
+// Регистрация маршрутов API для билетов (исключаем index)
+Route::apiResource('tickets', TicketController::class)->only(['show']);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Http\Resources\TicketResource;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TicketController extends Controller
 {
@@ -17,7 +18,7 @@ class TicketController extends Controller
         // Получить все билеты вместе с их авторами и назначенными пользователями
         $tickets = Ticket::with(['author', 'assignee'])->get();
 
-        return TicketResource::collection($tickets);
+        return Inertia::render('Tickets/Index', ['tickets' => $tickets]);
     }
 
     /**
