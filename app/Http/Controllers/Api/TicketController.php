@@ -16,9 +16,11 @@ class TicketController extends Controller
     public function index()
     {
         // Получить все билеты вместе с их авторами и назначенными пользователями
-        $tickets = Ticket::with(['author', 'assignee'])->get();
+        $tickets = Ticket::with(['author', 'assignee'])->latest()->get();
 
-        return Inertia::render('Tickets/Index', ['tickets' => $tickets]);
+        return Inertia::render('Tickets/Index', [
+            'tickets' => $tickets
+        ]);
     }
 
     /**
