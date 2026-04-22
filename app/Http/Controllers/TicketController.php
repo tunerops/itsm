@@ -21,4 +21,32 @@ class TicketController extends Controller
             'tickets' => $tickets
         ]);
     }
+    // Метод для отображения формы
+    public function create()
+    {
+        return Inertia::render('Tickets/Create');
+    }
+
+    // Метод для сохранения новой заявки в базу
+    public function store(Request $request)
+    {
+        // 1. Проверяем, что ввел пользователь
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'priority' => 'required|in:low,medium,high',
+        ]);
+
+        // 2. Создаем заявку в базе данных
+        Ticket::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'priority' => $validated['priority'],
+            'status' => 'new',
+            'author_id' => 1, // Пока жестко задаем ID автора (например, 1), пока не настроим авторизацию
+        ]);
+
+        // 3. Возвращаем пользователя обратно к списку заявок
+        return redirect()->route('tickets.index');
+    }
 }
