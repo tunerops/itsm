@@ -1,5 +1,6 @@
 import React from 'react';
 import { PlusCircle, Search, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Link } from '@inertiajs/react';
 
 // Компонент страницы списка билетов
 // Отображает таблицу билетов с их статусом, приоритетом и автором
@@ -75,10 +76,10 @@ const Index = ({ tickets }) => {
                         <h1 className="text-2xl font-bold text-gray-900">ITSM Tickets</h1>
                         <p className="mt-1 text-sm text-gray-500">Manage user requests and incidents</p>
                     </div>
-                    <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                    <Link href="/tickets/create" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
                         <PlusCircle className="w-4 h-4" />
                         Create Ticket
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Таблица билетов */}
