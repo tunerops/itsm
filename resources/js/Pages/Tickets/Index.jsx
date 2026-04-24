@@ -113,7 +113,9 @@ const Index = ({ tickets }) => {
                                                 #{ticket.id}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm font-medium text-gray-900">{ticket.title}</div>
+                                                <Link href={`/tickets/${ticket.id}`} className="text-sm font-medium text-blue-600 hover:text-blue-900">
+                                                    {ticket.title}
+                                                </Link>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {getStatusBadge(ticket.status)}

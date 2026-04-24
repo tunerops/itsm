@@ -49,4 +49,16 @@ class TicketController extends Controller
         // 3. Возвращаем пользователя обратно к списку заявок
         return redirect()->route('tickets.index');
     }
+
+    /**
+     * Отобразить конкретный билет с комментариями.
+     */
+    public function show($id)
+    {
+        $ticket = Ticket::with(['author', 'assignee', 'comments.user'])->findOrFail($id);
+
+        return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket,
+        ]);
+    }
 }
