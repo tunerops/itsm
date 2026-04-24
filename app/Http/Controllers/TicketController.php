@@ -61,4 +61,20 @@ class TicketController extends Controller
             'ticket' => $ticket,
         ]);
     }
+
+    /**
+     * Обновить статус билета.
+     */
+    public function updateStatus(Request $request, Ticket $ticket)
+    {
+        $validated = $request->validate([
+            'status' => 'required|string|in:new,in_progress,resolved,closed,open',
+        ]);
+
+        $ticket->update([
+            'status' => $validated['status'],
+        ]);
+
+        return redirect()->back();
+    }
 }
