@@ -49,4 +49,17 @@ class TicketController extends Controller
         // 3. Возвращаем пользователя обратно к списку заявок
         return redirect()->route('tickets.index');
     }
+
+    /**
+     * Отобразить страницу конкретного билета.
+     */
+    public function show(Ticket $ticket)
+    {
+        // Загружаем автора, исполнителя и комментарии с их авторами
+        $ticket->load(['author', 'assignee', 'comments.user']);
+
+        return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket
+        ]);
+    }
 }
