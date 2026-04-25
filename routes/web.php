@@ -15,6 +15,8 @@ Route::get('/tickets/create', [TicketController::class, 'create'])->name('ticket
 Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
 Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
 Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.update-status');
+Route::patch('/tickets/{ticket}/assign', [TicketController::class, 'assign'])->name('tickets.assign');
+Route::patch('/tickets/{ticket}/unassign', [TicketController::class, 'unassign'])->name('tickets.unassign');
 
 // Маршруты для комментариев
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');

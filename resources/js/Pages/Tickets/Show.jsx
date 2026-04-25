@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link, useForm, router } from '@inertiajs/react';
-import { ArrowLeft, Clock, CheckCircle2, AlertCircle, Send, Play } from 'lucide-react';
+import { Link, useForm, router, usePage } from '@inertiajs/react';
+import { ArrowLeft, Clock, CheckCircle2, AlertCircle, Send, Play, UserPlus, UserMinus } from 'lucide-react';
 
 // Компонент для отображения страницы конкретной заявки
 const Show = ({ ticket }) => {
+    const { auth } = usePage().props;
     // Инициализация формы для добавления комментария
     const { data, setData, post, processing, reset, errors } = useForm({
         ticket_id: ticket.id,
@@ -93,7 +94,7 @@ const Show = ({ ticket }) => {
                     </div>
 
                     {/* Управление статусом */}
-                    <div className="mb-6 flex gap-3">
+                    <div className="mb-6 flex gap-3 flex-wrap">
                         {ticket.status === 'new' && (
                             <button
                                 onClick={() => router.patch(`/tickets/${ticket.id}/status`, { status: 'in_progress' })}
@@ -112,6 +113,24 @@ const Show = ({ ticket }) => {
                                 Resolve Ticket
                             </button>
                         )}
+                        {!ticket.assignee_id && (
+                            <button
+                                onClick={() => router.patch(`/tickets/${ticket.id}/assign`)}
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                <UserPlus className="w-4 h-4" />
+                                Assign to Me
+                            </button>
+                        )}
+                        {ticket.assignee_id && auth?.user?.id === ticket.assignee_id && (
+                            <button
+                                onClick={() => router.patch(`/tickets/${ticket.id}/unassign`)}
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            >
+                                <UserMinus className="w-4 h-4" />
+                                Unassign
+                            </button>
+                        )}
                     </div>
 
                     <div className="prose max-w-none text-gray-700 mb-6">
@@ -122,11 +141,16 @@ const Show = ({ ticket }) => {
                         <div>
                             <strong>Author:</strong> {ticket.author?.name || 'Unknown'}
                         </div>
-                        {ticket.assignee && (
-                            <div>
-                                <strong>Assignee:</strong> {ticket.assignee.name}
-                            </div>
-                        )}
+                        <div>
+                            <strong>Assignee:</strong>{' '}
+                            {ticket.assignee ? (
+                                ticket.assignee.name
+                            ) : (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                    Unassigned
+                                </span>
+                            )}
+                        </div>
                         <div>
                             <strong>Created:</strong> {new Date(ticket.created_at).toLocaleString()}
                         </div>

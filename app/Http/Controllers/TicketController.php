@@ -77,4 +77,28 @@ class TicketController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * Назначить билет текущему авторизованному пользователю.
+     */
+    public function assign(Ticket $ticket)
+    {
+        $ticket->update([
+            'assignee_id' => auth()->id(),
+        ]);
+
+        return redirect()->back();
+    }
+
+    /**
+     * Снять назначение с билета.
+     */
+    public function unassign(Ticket $ticket)
+    {
+        $ticket->update([
+            'assignee_id' => null,
+        ]);
+
+        return redirect()->back();
+    }
 }
