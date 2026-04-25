@@ -57,8 +57,14 @@ class TicketController extends Controller
     {
         $ticket = Ticket::with(['author', 'assignee', 'comments.user'])->findOrFail($id);
 
+        $user = auth()->user();
+
         return Inertia::render('Tickets/Show', [
             'ticket' => $ticket,
+            'can' => [
+                'update' => $user ? $user->can('update', $ticket) : false,
+                'assign' => $user ? $user->can('assign', $ticket) : false,
+            ],
         ]);
     }
 
@@ -67,6 +73,8 @@ class TicketController extends Controller
      */
     public function updateStatus(Request $request, Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $validated = $request->validate([
             'status' => 'required|string|in:new,in_progress,resolved,closed,open',
         ]);
@@ -83,6 +91,8 @@ class TicketController extends Controller
      */
     public function assign(Ticket $ticket)
     {
+        $this->authorize('assign', $ticket);
+
         $ticket->update([
             'assignee_id' => auth()->id(),
         ]);
@@ -95,6 +105,8 @@ class TicketController extends Controller
      */
     public function unassign(Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $ticket->update([
             'assignee_id' => null,
         ]);
