@@ -5,13 +5,6 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-// 1. Исправленный импорт с фигурными скобками
-import { route } from 'ziggy-js';
-import { Ziggy } from './ziggy.js';
-
-// 2. Делаем функцию route глобальной
-window.route = (name, params, absolute) => route(name, params, absolute, Ziggy);
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
