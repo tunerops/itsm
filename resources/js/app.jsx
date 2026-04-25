@@ -4,16 +4,20 @@ import '../css/app.css';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+
+// 1. Исправленный импорт с фигурными скобками
 import { route } from 'ziggy-js';
+import { Ziggy } from './ziggy.js';
+
+// 2. Делаем функцию route глобальной
+window.route = (name, params, absolute) => route(name, params, absolute, Ziggy);
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    // Вот эта строка критически важна: она ищет файлы строго в папке Pages
     resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
-        window.route = route;
         const root = createRoot(el);
         root.render(<App {...props} />);
     },
