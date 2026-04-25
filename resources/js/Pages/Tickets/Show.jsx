@@ -3,7 +3,7 @@ import { Link, useForm, router, usePage } from '@inertiajs/react';
 import { ArrowLeft, Clock, CheckCircle2, AlertCircle, Send, Play, UserPlus, UserMinus } from 'lucide-react';
 
 // Компонент для отображения страницы конкретной заявки
-const Show = ({ ticket }) => {
+const Show = ({ ticket, can }) => {
     const { auth } = usePage().props;
     // Инициализация формы для добавления комментария
     const { data, setData, post, processing, reset, errors } = useForm({
@@ -95,7 +95,7 @@ const Show = ({ ticket }) => {
 
                     {/* Управление статусом */}
                     <div className="mb-6 flex gap-3 flex-wrap">
-                        {ticket.status === 'new' && (
+                        {can?.update && ticket.status === 'new' && (
                             <button
                                 onClick={() => router.patch(`/tickets/${ticket.id}/status`, { status: 'in_progress' })}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
@@ -104,7 +104,7 @@ const Show = ({ ticket }) => {
                                 Take in Progress
                             </button>
                         )}
-                        {ticket.status === 'in_progress' && (
+                        {can?.update && ticket.status === 'in_progress' && (
                             <button
                                 onClick={() => router.patch(`/tickets/${ticket.id}/status`, { status: 'resolved' })}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -113,7 +113,7 @@ const Show = ({ ticket }) => {
                                 Resolve Ticket
                             </button>
                         )}
-                        {!ticket.assignee_id && (
+                        {can?.assign && !ticket.assignee_id && (
                             <button
                                 onClick={() => router.patch(`/tickets/${ticket.id}/assign`)}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -122,7 +122,7 @@ const Show = ({ ticket }) => {
                                 Assign to Me
                             </button>
                         )}
-                        {ticket.assignee_id && auth?.user?.id === ticket.assignee_id && (
+                        {can?.update && ticket.assignee_id && auth?.user?.id === ticket.assignee_id && (
                             <button
                                 onClick={() => router.patch(`/tickets/${ticket.id}/unassign`)}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
