@@ -1,4 +1,6 @@
 import React from 'react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+
 import { PlusCircle, Search, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
@@ -68,7 +70,8 @@ const Index = ({ tickets }) => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <AuthenticatedLayout>
+            <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Заголовок и кнопка создания */}
                 <div className="flex justify-between items-center mb-6">
@@ -148,7 +151,9 @@ const Index = ({ tickets }) => {
                 </div>
             </div>
         </div>
+        </AuthenticatedLayout>
     );
 };
+
 
 export default Index;

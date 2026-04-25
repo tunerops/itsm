@@ -1,4 +1,6 @@
 import React from 'react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+
 import { Link, useForm, router, usePage } from '@inertiajs/react';
 import { ArrowLeft, Clock, CheckCircle2, AlertCircle, Send, Play, UserPlus, UserMinus } from 'lucide-react';
 
@@ -69,7 +71,8 @@ const Show = ({ ticket, can }) => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
+        <AuthenticatedLayout>
+            <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Кнопка возврата к списку */}
                 <div className="mb-6">
@@ -220,7 +223,9 @@ const Show = ({ ticket, can }) => {
                 </div>
             </div>
         </div>
+        </AuthenticatedLayout>
     );
 };
+
 
 export default Show;

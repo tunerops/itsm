@@ -1,4 +1,6 @@
 import React from 'react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Create() {
@@ -16,7 +18,8 @@ export default function Create() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8 mt-10">
+        <AuthenticatedLayout>
+            <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8 mt-10">
             <Head title="Создать заявку" />
             <h1 className="text-2xl font-bold text-gray-900 mb-6">Создать новую заявку</h1>
 
@@ -81,5 +84,6 @@ export default function Create() {
                 </div>
             </form>
         </div>
+        </AuthenticatedLayout>
     );
 }
